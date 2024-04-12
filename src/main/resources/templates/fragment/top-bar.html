@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>상단바</title>
+</head>
+<body>
+<div th:fragment="topbar">
+    <div>
+        <div><a th:href="@{/}">home</a></div>
+        <div>
+            <ul>
+                <li sec:authorize="hasAuthority('ADMIN')">(admin)</li>
+                <!-- Check if the user is authenticated -->
+                <li sec:authorize="isAuthenticated()"><span th:text="${#authentication.principal.username}"></span></li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">로그아웃</a></li>
+
+                <!-- Check if the user is not authenticated -->
+                <li sec:authorize="isAnonymous()"><a th:href="@{/login}">로그인</a></li>
+                <li sec:authorize="isAnonymous()"><a th:href="@{/users/new}">회원가입</a></li>
+                <li><a href="/users">유저목록</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
