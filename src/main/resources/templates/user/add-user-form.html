@@ -28,6 +28,10 @@
     <input type="text" th:field="*{email}" required>
     <div th:errors="*{email}">에러 메세지</div>
 
+    <label th:for="groupName">그룹 이름:</label>
+    <input type="text" th:field="*{groupName}" required>
+    <div th:errors="*{groupName}">에러 메세지</div>
+
     <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}"/>
     <input type="submit" value="생성">
 </form>

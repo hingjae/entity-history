@@ -9,7 +9,11 @@ CREATE TABLE users (
     phone_number VARCHAR(255),
     email VARCHAR(255),
     confirm_yn BOOLEAN,
-    renew_password BOOLEAN
+    renew_password BOOLEAN,
+    created_at DATETIME NOT NULL,
+    created_by VARCHAR(100) NOT NULL,
+    modified_at DATETIME NOT NULL,
+    modified_by VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE role (
@@ -23,6 +27,19 @@ CREATE TABLE user_role (
     role_id BIGINT,
     FOREIGN KEY (username) REFERENCES users(username),
     FOREIGN KEY (role_id) REFERENCES role(id)
+);
+
+CREATE TABLE groups (
+  group_sn BIGINT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255)
+);
+
+CREATE TABLE group_user (
+  group_user_sn BIGINT AUTO_INCREMENT PRIMARY KEY,
+  group_sn BIGINT,
+  username VARCHAR(255),
+  FOREIGN KEY (group_sn) REFERENCES groups (group_sn),
+  FOREIGN KEY (username) REFERENCES users (username)
 );
 
 -- CREATE TABLE user_revision (

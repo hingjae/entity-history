@@ -17,6 +17,8 @@ public class UserResponse {
 
     private final String email;
 
+    private final String groupName;
+
     public static UserResponse from(User user) {
         return UserResponse.builder()
                 .username(user.getUsername())
@@ -24,6 +26,7 @@ public class UserResponse {
                 .name(user.getName())
                 .phoneNumber(user.getPhoneNumber())
                 .email(user.getEmail())
+                .groupName(user.getGroupName())
                 .build();
     }
 

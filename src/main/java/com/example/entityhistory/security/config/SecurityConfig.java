@@ -29,7 +29,7 @@ public class SecurityConfig {
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring()
                 .requestMatchers(toH2Console())
-                .requestMatchers(String.valueOf(toStaticResources()));
+                .requestMatchers("/img/**", "/css/**", "/js/**");
     }
 
     @Bean
@@ -45,6 +45,7 @@ public class SecurityConfig {
 
         http.logout(configurer -> configurer
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/")
                 .invalidateHttpSession(true));
 
         return http.build();

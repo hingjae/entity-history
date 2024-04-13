@@ -1,5 +1,9 @@
 package com.example.entityhistory.user.service;
 
+import com.example.entityhistory.group.entity.Group;
+import com.example.entityhistory.group.entity.GroupUser;
+import com.example.entityhistory.group.repository.GroupRepository;
+import com.example.entityhistory.group.repository.GroupUserRepository;
 import com.example.entityhistory.user.controller.form.AddUserForm;
 import com.example.entityhistory.user.controller.form.ModifyUserForm;
 import com.example.entityhistory.user.entity.Role;
@@ -25,12 +29,25 @@ public class UserService {
     private final UserRoleRepository userRoleRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final GroupRepository groupRepository;
+    private final GroupUserRepository groupUserRepository;
 
     @Transactional
-    public void save(AddUserForm addUserForm) {
-        Role role = roleRepository.findByRoleType(RoleType.USER);
+    public User save(AddUserForm addUserForm) {
+        Role role = roleRepository.findByRoleType(RoleType.GROUP_USER);
         User user = userRepository.save(createUser(addUserForm));
-        UserRole userRole = userRoleRepository.save(createUserRole(user, role));
+        userRoleRepository.save(createUserRole(user, role));
+        Group group = groupRepository.findByName(addUserForm.getGroupName())
+                .orElseThrow(EntityNotFoundException::new);
+        groupUserRepository.save(createGroupUser(group, user));
+        return user;
+    }
+
+    private GroupUser createGroupUser(Group group, User user) {
+        return GroupUser.builder()
+                .group(group)
+                .user(user)
+                .build();
     }
 
     private User createUser(AddUserForm form) {
@@ -52,12 +69,12 @@ public class UserService {
                 .build();
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<User> findAllWithGroups() {
+        return userRepository.findAllWithGroups();
     }
 
     public User findById(String username) {
-        return userRepository.findById(username)
+        return userRepository.findByUsernameWithGroups(username)
                 .orElseThrow(EntityNotFoundException::new);
     }
 

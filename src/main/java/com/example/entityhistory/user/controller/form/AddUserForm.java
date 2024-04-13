@@ -15,4 +15,6 @@ public class AddUserForm {
     private final String phoneNumber;
 
     private final String email;
+
+    private final String groupName;
 }
