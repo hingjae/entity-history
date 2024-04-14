@@ -6,6 +6,7 @@ import com.example.entityhistory.group.entity.GroupUser;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,7 +53,7 @@ public class User extends AuditingFields {
     private List<GroupUser> groupUsers = new ArrayList<>();
 
     @Builder
-    public User(String username, String password, String name, String phoneNumber, String email, Boolean confirmYn, Boolean renewPassword, List<UserRole> userRoles, List<GroupUser> groupUsers) {
+    public User(String username, String password, String name, String phoneNumber, String email, Boolean confirmYn, Boolean renewPassword, List<UserRole> userRoles, List<GroupUser> groupUsers, String createdBy, LocalDateTime createdAt, String modifiedBy, LocalDateTime modifiedAt) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -62,6 +63,10 @@ public class User extends AuditingFields {
         this.renewPassword = renewPassword;
         this.userRoles = userRoles;
         this.groupUsers = groupUsers;
+        this.createdAt = createdAt;
+        this.createdBy = createdBy;
+        this.modifiedAt = modifiedAt;
+        this.modifiedBy = modifiedBy;
     }
 
     public String getGroupName() {

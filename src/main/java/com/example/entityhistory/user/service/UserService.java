@@ -59,6 +59,8 @@ public class UserService {
                 .email(form.getEmail())
                 .confirmYn(false)
                 .renewPassword(false)
+                .createdBy(form.getUsername())
+                .modifiedBy(form.getUsername())
                 .build();
     }
 
